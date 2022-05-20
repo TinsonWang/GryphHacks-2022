@@ -1,15 +1,29 @@
 package main
 
-import "github.com/gofiber/fiber/v2"
+import "fmt"
+import "log"
+import "net/http"
+
+func loginHandler(w http.ResponseWriter, r *http.Request) { 
+}
+
+func regHandler(w http.ResponseWriter, r *http.Request) {
+}
+
+func qrHandler(w http.ResponseWriter, r *http.Request) {
+}
+
+func mapHandler(w http.ResponseWriter, r *http.Request) {
+}
 
 func main() {
-    app := fiber.New()
+	http.HandleFunc("/login", loginHandler)
+	http.HandleFunc("/register", regHandler)
+	http.HandleFunc("/qr", qrHandler)
+	http.HandleFunc("/map", mapHandler)
 
-    app.Get("/", func(c *fiber.Ctx) error {
-      return c.SendString("Hello, World!")
-    })
-
-    app.Static("/", "./static")
-
-    app.Listen(":3000")
+	fmt.Print("Starting server on port 8080\n")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+        log.Fatal(err)
+    }
 }
