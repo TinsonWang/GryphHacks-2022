@@ -1,12 +1,15 @@
 package main
 
-import "fmt"
-import "io/ioutil"
-import "log"
-import "net/http"
-import "errors"
-import "io"
-import "os"
+import (
+  "fmt"
+  "io/ioutil"
+  "log"
+  "net/http"
+  "errors"
+  "io"
+  "os"
+  "math/rand"
+)
 
 func loginHandler(w http.ResponseWriter, r *http.Request) { 
 }
@@ -42,7 +45,10 @@ func downloadFile(URL, fileName string) error {
 }
 
 func qrHandler(w http.ResponseWriter, r *http.Request) {
-    url := "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example"
+    min := 10000000000
+    max := 30000000000
+    rand := rand.Intn(max - min) + min
+    url := "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + string(rand)
     resp, err := http.Get(url);
     if err != nil {
         log.Fatalln(err)
