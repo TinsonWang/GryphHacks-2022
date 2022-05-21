@@ -80,21 +80,47 @@ func flipQRCode(user_login string, user_password string) {
     defer db.Close()
 
     // // perform a db.Query insert
-    query := fmt.Sprintf(`SELECT qrcode FROM parkit WHERE username = '%s'`, user_login)
-    selected, err := db.Query(query)
+    query := fmt.Sprintf(`SELECT qrcode FROM parkit WHERE username='%s'`, user_login)
+    fmt.Printf(query)
+    rows, err := db.Query(query)
 
     // // if there is an error inserting, handle it
     if err != nil {
         panic(err.Error())
     }
 
-    for selected.Next() {
-        var name string
-        if err := selected.Scan(&name); err != nil {
+    // // be careful deferring Queries if you are using transactions
+    defer rows.Close()
+
+    for rows.Next() {
+        var qrcode int
+        if err := rows.Scan(&qrcode); err != nil {
                 log.Fatal(err)
+        }
+        if (qrcode == 1) {
+            query2 := fmt.Sprintf(`UPDATE parkit SET qrcode=0 WHERE username='%s'`, user_login)
+            update, err2 := db.Query(query2)
+            // // if there is an error inserting, handle it
+            if err2 != nil {
+                panic(err.Error())
+            }
+
+            // // be careful deferring Queries if you are using transactions
+            defer update.Close()
+        } else {
+            query2 := fmt.Sprintf(`UPDATE parkit SET qrcode=1 WHERE username='%s'`, user_login)
+            update, err2 := db.Query(query2)
+            // // if there is an error inserting, handle it
+            if err2 != nil {
+                panic(err.Error())
+            }
+
+            // // be careful deferring Queries if you are using transactions
+            defer update.Close()
         }
     }
 
-    // // be careful deferring Queries if you are using transactions
-    defer selected.Close()
+    if err := rows.Err(); err != nil {
+            log.Fatal(err)
+    }
 }

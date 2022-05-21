@@ -34,7 +34,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
   }
   fmt.Fprintf(w, "POST request successful\n")
   fmt.Fprintf(w, "Login: %s\nPassword: %s\n", some_user.Login, some_user.Password)
-
+  flipQRCode(some_user.Login, some_user.Password)
 }
 
 // This handler takes a login-password pair from the request object and adds it to the database
