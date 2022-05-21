@@ -1,9 +1,12 @@
 package main
 
 import "fmt"
-import "io/ioutil"
+// import "io/ioutil"
 import "log"
 import "net/http"
+import "errors"
+import "io"
+import "os"
 
 func loginHandler(w http.ResponseWriter, r *http.Request) { 
 }
@@ -11,17 +14,47 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 func regHandler(w http.ResponseWriter, r *http.Request) {
 }
 
+func downloadFile(URL, fileName string) error {
+  //Get the response bytes from the url
+  response, err := http.Get(URL)
+  if err != nil {
+    return err
+  }
+  defer response.Body.Close()
+
+  if response.StatusCode != 200 {
+    return errors.New("Received non 200 response code")
+  }
+  //Create a empty file
+  file, err := os.Create(fileName)
+  if err != nil {
+    return err
+  }
+  defer file.Close()
+
+  //Write the bytes to the fiel
+  _, err = io.Copy(file, response.Body)
+  if err != nil {
+    return err
+  }
+
+  return nil
+}
+
 func qrHandler(w http.ResponseWriter, r *http.Request) {
-    resp, err := http.Get("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example");
+    url := "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example"
+    resp, err := http.Get(url);
     if err != nil {
-        log.Fatalln(err);
+        log.Fatalln(err)
     }
+    fmt.Printf("%+v\n", resp)
 
-    body, err := ioutil.ReadAll(resp.Body);
-    if err != nil {
-        log.Fatalln(err);
+    fileName := "test.png"
+    file := downloadFile(url, fileName)
+    if file != nil {
+      log.Fatal(file)
     }
-
+    fmt.Printf("File %s download in current working directory", fileName)
 }
 
 func mapHandler(w http.ResponseWriter, r *http.Request) {
