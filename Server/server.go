@@ -9,12 +9,46 @@ import (
   "io"
   "os"
   "math/rand"
+  "encoding/json"
 )
 
-func loginHandler(w http.ResponseWriter, r *http.Request) { 
+type User struct {
+  Login string
+  Password string
 }
 
+func mainHandler(w http.ResponseWriter, r *http.Request) {
+
+  fmt.Print("Welcome to ParkIt! Powered by FireTrucks.")
+
+}
+
+// This handler takes a login-password pair from the request object, finds it in the database, and flips the database column qrcode value
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+
+  var some_user User
+  err := json.NewDecoder(r.Body).Decode(&some_user)
+  if err != nil {
+    http.Error(w, err.Error(), http.StatusBadRequest)
+    return
+  }
+  fmt.Fprintf(w, "POST request successful\n")
+  fmt.Fprintf(w, "Login: %s\nPassword: %s\n", some_user.Login, some_user.Password)
+
+}
+
+// This handler takes a login-password pair from the request object and adds it to the database
 func regHandler(w http.ResponseWriter, r *http.Request) {
+  var some_user User
+  err := json.NewDecoder(r.Body).Decode(&some_user)
+  if err != nil {
+    http.Error(w, err.Error(), http.StatusBadRequest)
+    return
+  }
+  fmt.Fprintf(w, "POST request successful\n")
+  fmt.Fprintf(w, "Login: %s\nPassword: %s\n", some_user.Login, some_user.Password)
+  insertDatabase(some_user.Login, some_user.Password)
+
 }
 
 func downloadFile(URL, fileName string) error {
@@ -75,6 +109,7 @@ func mapHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+  http.HandleFunc("/", mainHandler)
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/register", regHandler)
 	http.HandleFunc("/qr", qrHandler)
