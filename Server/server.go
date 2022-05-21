@@ -74,8 +74,8 @@ func main() {
 	http.HandleFunc("/qr", qrHandler)
 	http.HandleFunc("/map", mapHandler)
 
-	fmt.Print("Starting server on port 8080\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	fmt.Print("Starting server on port 5000\n")
+	if err := http.ListenAndServe(":5000", nil); err != nil {
         log.Fatal(err)
     }
 }
