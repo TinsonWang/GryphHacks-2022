@@ -1,6 +1,7 @@
 package main
 
 import "fmt"
+import "io/ioutil"
 import "log"
 import "net/http"
 
@@ -11,6 +12,16 @@ func regHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func qrHandler(w http.ResponseWriter, r *http.Request) {
+    resp, err := http.Get("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example");
+    if err != nil {
+        log.Fatalln(err);
+    }
+
+    body, err := ioutil.ReadAll(resp.Body);
+    if err != nil {
+        log.Fatalln(err);
+    }
+
 }
 
 func mapHandler(w http.ResponseWriter, r *http.Request) {
