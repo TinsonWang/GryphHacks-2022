@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-// import "io/ioutil"
+import "io/ioutil"
 import "log"
 import "net/http"
 import "errors"
@@ -55,6 +55,14 @@ func qrHandler(w http.ResponseWriter, r *http.Request) {
       log.Fatal(file)
     }
     fmt.Printf("File %s download in current working directory", fileName)
+    fileBytes, err := ioutil.ReadFile("test.png")
+	if err != nil {
+		panic(err)
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Write(fileBytes)
+	return
 }
 
 func mapHandler(w http.ResponseWriter, r *http.Request) {
