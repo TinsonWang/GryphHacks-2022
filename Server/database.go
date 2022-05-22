@@ -61,7 +61,7 @@ func insertDatabase(user_login string, user_password string) {
     defer insert.Close()
 }
 
-func flipQRCode(user_login string, user_password string) {
+func flipQRCode(user_login string, user_password string)(rowCounts int) {
     host := goDotEnvVariable("HOST")
     database := goDotEnvVariable("DATABASE")
     user := goDotEnvVariable("DB_USER")
@@ -80,7 +80,7 @@ func flipQRCode(user_login string, user_password string) {
     defer db.Close()
 
     // // perform a db.Query insert
-    query := fmt.Sprintf(`SELECT qrcode FROM parkit WHERE username='%s'`, user_login)
+    query := fmt.Sprintf(`SELECT qrcode FROM parkit WHERE username='%s' AND password='%s'`, user_login, user_password)
     fmt.Printf(query)
     rows, err := db.Query(query)
 
@@ -92,7 +92,10 @@ func flipQRCode(user_login string, user_password string) {
     // // be careful deferring Queries if you are using transactions
     defer rows.Close()
 
+    rowCounts = 0
+
     for rows.Next() {
+        rowCounts++
         var qrcode int
         if err := rows.Scan(&qrcode); err != nil {
                 log.Fatal(err)
@@ -123,4 +126,6 @@ func flipQRCode(user_login string, user_password string) {
     if err := rows.Err(); err != nil {
             log.Fatal(err)
     }
+
+    return
 }
