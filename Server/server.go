@@ -34,7 +34,22 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
   }
   fmt.Fprintf(w, "POST request successful\n")
   fmt.Fprintf(w, "Login: %s\nPassword: %s\n", some_user.Login, some_user.Password)
-  flipQRCode(some_user.Login, some_user.Password)
+  rowCounts := flipQRCode(some_user.Login, some_user.Password)
+  w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	resp := make(map[string]string)
+  if (rowCounts == 0) {
+    resp["Status"] = "Login Failed"
+  } else {
+    resp["Status"] = "Login Successful"
+  }
+	jsonResp, err2 := json.Marshal(resp)
+	if err2 != nil {
+		log.Fatalf("Error happened in JSON marshal. Err: %s", err2)
+	}
+	w.Write(jsonResp)
+	return
+
 }
 
 // This handler takes a login-password pair from the request object and adds it to the database
