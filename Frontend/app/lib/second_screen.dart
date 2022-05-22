@@ -26,12 +26,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<Album> createAlbum(String title) async {
+Future<Album> createAlbum(String login, String password) async {
   final response = await http.post(
     Uri.parse('https://f612-184-144-100-19.ngrok.io/login'),
     body: jsonEncode(<String, String>{
-      'login': 'wencygo',
-      'password' : 'testpassword345'
+      'login': login,
+      'password' : password
     }),
   );
 
@@ -73,6 +73,8 @@ class SecondScreen extends StatefulWidget {
 
 class _MyAppState extends State<SecondScreen> {
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
+
   Future<Album>? _futureAlbum;
 
   @override
@@ -99,17 +101,34 @@ class _MyAppState extends State<SecondScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+
+        Text(
+          'Login to your\nAccount',
+          textAlign: TextAlign.left,
+          style: TextStyle( fontSize: 20 )
+        ),
+
         TextField(
           controller: _controller,
-          decoration: const InputDecoration(hintText: 'Enter Title'),
+          decoration: const InputDecoration(hintText: 'Login'),
         ),
+
+        TextField(
+          controller: _controller2,
+          decoration: const InputDecoration(hintText: 'Password'),
+        ),
+
         ElevatedButton(
           onPressed: () {
             setState(() {
-              _futureAlbum = createAlbum(_controller.text);
+              _futureAlbum = createAlbum(
+                    _controller.text,
+                    _controller2.text
+              );
             });
           },
           child: const Text('Create Data'),
+
         ),
       ],
     );
