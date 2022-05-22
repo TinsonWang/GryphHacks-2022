@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class QrGenerate extends StatelessWidget {
   @override
@@ -7,17 +8,31 @@ class QrGenerate extends StatelessWidget {
       body: Container(
         color:const Color(0xFF001d4a),
         alignment: Alignment.center,
-        child: FractionallySizedBox (
-          widthFactor: 0.8,
-          heightFactor: 0.6,
-          alignment: Alignment.center,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container (
-              color:Colors.white
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.width * 0.6,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: Container  (
+                
+              )
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.width * 0.6,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              )
             )
-          ),
-        )
+          ]
+        ,)
       )
     );
   }
