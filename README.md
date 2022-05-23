@@ -26,7 +26,7 @@ One of our goals for this hackathon was to expose ourselves to new technologies.
 
 Regardless, we would like to applaud Kin,  our Frontend developer, for their efforts in this hackathon as not only was it their first time coding in a full stack environment, but it was also their first time coding in general. It has been an amazing opportunity to revisit the struggles and triumphs of learning how to code a large scale project for the first time.
 
-##How we built it: Backend
+## How we built it: Backend
 While we felt that the Flutter framework was needed to create an effective frontend for our project, we believed that our backend was small scale enough (at least in its current iteration) to forgo the need for a backend framework. As mentioned above, we sought to utilize tools in which we had no experience with. Golang is an open-source programming language that has been steadily increasing in popularity and was the selected choice for our backend. 
 
 A local server and its' endpoints was created in Golang. This server would then be made public using NGROK, a software that exposes local ports to the Internet. In order to connect our server to a MySQL database for user authentication and QR code storage, we utilized a public Go-SQL driver (https://github.com/go-sql-driver/mysql). 
