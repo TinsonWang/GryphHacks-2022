@@ -1,3 +1,10 @@
+## GryphHacks Devpost Submission Requirements
+Team Members - Roles
+1. Tinson Wang - Backend Developer
+2. Wency Go - UI Designer
+3. Kin Li - Frontend Developer
+4. Shamsi Shinin - Fullstack Developer
+
 ## Inspiration/Rationale
 We believe that finding parking is becoming increasingly difficult, especially as more drivers get back on the road. On top of this, paying for parking can be a hassle - having to deal with parking meters that only take coins (who carries coins anymore?) or bulky parking machines that make you type in your car details, which can waste a lot of time.
 
@@ -8,7 +15,7 @@ With that said, our goal with this hackathon was to come up with an easy-to-use 
 ## What it does
 ParkIt generates a unique QR code that drivers can use to scan in and out of a parking position, simplifying the parking process by introducing efficient organization. When a user signs in, they are assigned a QR code, which is stored in a database. 
 
-Upon initial scan in, the QR code is registered as 'active' if a parking position can be assigned. If there are no positions available within that parking lot, the app will let the user know. In this way, the driver can save time by driving elsewhere instead of entering the parking lot and scouting for an open position. The user at this time may then proceed to park in the position indicated. 
+Upon initial scan in, the QR code is registered as 'active' if a parking position can be assigned. The user at this time may then proceed to park in the position indicated. If there are no positions available within that parking lot, the app will let the user know. In this way, the driver can save time by driving elsewhere instead of entering the parking lot and scouting for an open position. 
 
 When the user is leaving, a subsequent scan out marks the QR code as 'inactive', and the parking spot that was previously occupied is now marked vacant. 
 
@@ -19,12 +26,12 @@ One of our goals for this hackathon was to expose ourselves to new technologies.
 
 Regardless, we would like to applaud Kin,  our Frontend developer, for their efforts in this hackathon as not only was it their first time coding in a full stack environment, but it was also their first time coding in general. It has been an amazing opportunity to revisit the struggles and triumphs of learning how to code a large scale project for the first time.
 
-## How we built it: Backend
+##How we built it: Backend
 While we felt that the Flutter framework was needed to create an effective frontend for our project, we believed that our backend was small scale enough (at least in its current iteration) to forgo the need for a backend framework. As mentioned above, we sought to utilize tools in which we had no experience with. Golang is an open-source programming language that has been steadily increasing in popularity and was the selected choice for our backend. 
 
 A local server and its' endpoints was created in Golang. This server would then be made public using NGROK, a software that exposes local ports to the Internet. In order to connect our server to a MySQL database for user authentication and QR code storage, we utilized a public Go-SQL driver (https://github.com/go-sql-driver/mysql). 
 
 By leveraging the capabilities of the 'net/http' package in Golang, we could establish communication between our server and the frontend via the use of JSON request and response objects. 
 
-## What's next for ParkIt! - FireTrucks™
+## What's next for ParkIt - FireTrucks™
 For the time being, this project will remain as a simple component to a larger solution. We have not decided if we would continue to further develop it, but at the very least, this project is sufficient to act as a demo of working technology! 
